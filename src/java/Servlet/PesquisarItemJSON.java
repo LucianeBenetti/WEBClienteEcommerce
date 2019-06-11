@@ -3,8 +3,11 @@ package Servlet;
 import controle.DAO.DAOItem;
 import controle.VO.Item;
 import controle.integracao.ItemDAOJSON;
-import controle.integracao.PesquisarItemCliente;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,18 +20,31 @@ public class PesquisarItemJSON extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String descricaoProduto = request.getParameter("descricaoproduto");
-        request.setAttribute("descricaoproduto", descricaoProduto);
+        String descricao = request.getParameter("descricaoproduto");
+        String resourceURI = "http://localhost:8080/EcommerceServico/pesquisaritem";
 
-        PesquisarItemCliente pesquisarItem = new PesquisarItemCliente();
+        String formatedURL = resourceURI;
+        String httpParameters = "?descricaoproduto=" + URLEncoder.encode(descricao, "UTF-8");
+        URL url = new URL(formatedURL+httpParameters);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestProperty("accept", "JSON");
+        con.setRequestMethod("GET");
+        InputStream is = con.getInputStream();
+        String respose = convertStreamToString(is);
+        ItemDAOJSON itemDAOJSON = new ItemDAOJSON();
+        ArrayList<Item> itensEncontrados = itemDAOJSON.desserializa(respose);
+        System.out.println("O objeto item é: " + itensEncontrados);
 
-        pesquisarItem.clienteServicoGET();
+        if (itemDAOJSON != null) {
+            request.setAttribute("itensencontrados", itensEncontrados);
+            String page = request.getSession().getAttribute("usuarioautenticado") == null ? "ResultadoDaPesquisa.jsp" : "WEB-INF/ResultadoDaPesquisaAutenticado.jsp";
+            request.getRequestDispatcher(page).forward(request, response);
+        }
+    }
 
-        // if (itemDAOJSON != null) {
-        // request.setAttribute("itensencontrados", itensEncontrados);
-//            String page = request.getSession().getAttribute("usuarioautenticado") == null ? "ResultadoDaPesquisa.jsp" : "WEB-INF/ResultadoDaPesquisaAutenticado.jsp";
-//           request.getRequestDispatcher(page).forward(request, response);
-        //    }
+    private static String convertStreamToString(InputStream is) {
+        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+        return s.hasNext() ? s.next() : "";
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
