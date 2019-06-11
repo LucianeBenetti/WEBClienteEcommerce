@@ -22,7 +22,7 @@
         <div class="container">
             <h2>Loja Digital LuMar!</h2>
             <p> Cadastrar Usuario!</P>
-            <form class="was-validated" action="http://localhost:8080/WEBServicosEcommerce/crudecommerce" method="post">
+            <form class="was-validated" action="validarusuario" method="post">
                 <div class="form-group">
                     <label for="nome">Login:</label>
                     <input type="text" class="form-control" id="login" placeholder="Digite um nome para o seu login" name="login" required>
