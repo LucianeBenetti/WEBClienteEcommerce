@@ -1,8 +1,9 @@
-
 package Servlet;
 
+import controle.DAO.DAOItem;
 import controle.VO.Item;
 import controle.integracao.ItemDAOJSON;
+import controle.integracao.PesquisarItemCliente;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
@@ -15,11 +16,19 @@ public class PesquisarItemJSON extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-       
-        BuscarItemJSON buscarItem = new BuscarItemJSON();
-        
-         ArrayList<Item> itemDAOJSON= buscarItem.clienteServicoGET("JSON");
-       
+
+        String descricaoProduto = request.getParameter("descricaoproduto");
+        request.setAttribute("descricaoproduto", descricaoProduto);
+
+        PesquisarItemCliente pesquisarItem = new PesquisarItemCliente();
+
+        pesquisarItem.clienteServicoGET();
+
+        // if (itemDAOJSON != null) {
+        // request.setAttribute("itensencontrados", itensEncontrados);
+//            String page = request.getSession().getAttribute("usuarioautenticado") == null ? "ResultadoDaPesquisa.jsp" : "WEB-INF/ResultadoDaPesquisaAutenticado.jsp";
+//           request.getRequestDispatcher(page).forward(request, response);
+        //    }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
