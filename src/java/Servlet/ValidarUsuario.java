@@ -1,7 +1,9 @@
 package Servlet;
 
 import controle.VO.Item;
+import controle.VO.Usuario;
 import controle.integracao.ItemDAOJSON;
+import controle.integracao.UsuarioDAOJSON;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -13,32 +15,49 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class ValidarUsuario extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-       String descricao = request.getParameter("descricaoproduto");
-        String resourceURI = "http://localhost:8080/EcommerceServico/pesquisaritem";
+        String login = request.getParameter("login");
+        String senha = request.getParameter("senha");
+        String resourceURI = "http://localhost:8080/EcommerceServico/crudecommerce";
 
         String formatedURL = resourceURI;
-        String httpParameters = "?descricaoproduto=" + URLEncoder.encode(descricao, "UTF-8");
-        URL url = new URL(formatedURL+httpParameters);
+        String httpParameters = "?login=" + URLEncoder.encode(login, "UTF-8") + "&senha=" + URLEncoder.encode(senha, "UTF-8") + "&validar=";
+        URL url = new URL(formatedURL + httpParameters);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestProperty("accept", "JSON");
         con.setRequestMethod("GET");
         InputStream is = con.getInputStream();
         String respose = convertStreamToString(is);
-        ItemDAOJSON itemDAOJSON = new ItemDAOJSON();
-        ArrayList<Item> itensEncontrados = itemDAOJSON.desserializa(respose);
-        System.out.println("O objeto item é: " + itensEncontrados);
 
-        if (itemDAOJSON != null) {
-            request.setAttribute("itensencontrados", itensEncontrados);
-            String page = request.getSession().getAttribute("usuarioautenticado") == null ? "ResultadoDaPesquisa.jsp" : "WEB-INF/ResultadoDaPesquisaAutenticado.jsp";
-            request.getRequestDispatcher(page).forward(request, response);
-        }
+        UsuarioDAOJSON usuarioDAOJSON = new UsuarioDAOJSON();
+        ArrayList<Usuario> usuariosEncontrados = usuarioDAOJSON.desserializa(respose);
+        System.out.println("O objeto usuario é: " + usuariosEncontrados);
+
+        if (usuarioDAOJSON != null) {
+            for (int i = 0; i < usuariosEncontrados.size(); i++) {
+
+                HttpSession session = request.getSession();
+                session.setAttribute("usuarioautenticado", usuariosEncontrados);
+
+                request.setAttribute("datavalidade", usuariosEncontrados.get(i).getDataValidade());
+                request.setAttribute("numerocartao", usuariosEncontrados.get(i).getNumeroCartao());
+                request.setAttribute("codigoseguranca", usuariosEncontrados.get(i).getCodigoSeguranca());
+                request.setAttribute("login", usuariosEncontrados.get(i).getLogin());
+                request.setAttribute("senha", usuariosEncontrados.get(i).getSenha());
+                request.getRequestDispatcher("WEB-INF/EcommerceValidado.jsp").forward(request, response);
+            }
+       
+    } 
+        else {
+            Boolean validacao = false;
+        request.getRequestDispatcher("Login.jsp").forward(request, response);
+    }
     }
 
     private static String convertStreamToString(InputStream is) {
