@@ -95,7 +95,7 @@ public class UsuarioDao {
 
                 usuario.setCodigoUsuario(resultado.getInt(1));
                 usuario.setCodigoSeguranca(resultado.getString(2));
-                usuario.setDataValidade(resultado.getDate(3));
+          //      usuario.setDataValidade(resultado.getDate(3));
                 usuario.setLogin(resultado.getString(4));
                 usuario.setNumeroCartao(resultado.getInt(5));
                 usuario.setSenha(resultado.getString(6));

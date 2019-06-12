@@ -46,7 +46,7 @@
         <h2>Loja Digital LuMar!</h2>
         <p> Entre com o login e senha para comprar à vontade!</P>
         
-        <form class="was-validated" action="validarusuario" method="post">
+        <form class="was-validated" action="login" method="post">
             <div class="form-group">
                 <label for="nome">Login:</label>
                 <input type="text" name="login" class="form-control" id="login" placeholder="Digite seu login" required>
@@ -61,7 +61,6 @@
                 <small id="senha" class="form-text text-muted">Nunca compartilhe a sua senha!</small>
 
             </div>
-            <input type="hidden" id="validar" name="validar" value="validar">
             <button type="submit" class="btn btn-primary">Acessar Loja</button>
             
             <div class="form-group form-check" style =" float: top">

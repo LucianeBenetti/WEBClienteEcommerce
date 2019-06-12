@@ -43,7 +43,7 @@
 
             <h4>Digital LuMar - Confira abaixo os produtos oferecidos pela melhor loja da Internet, 
                 ou pesquise por um produto específico</h4>
-            <form action="pesquisaritem" method="get">
+            <form action="itemsolicitadopelocliente" method="get">
                 Pesquise aqui:
                 <input type="text" size="60" name="descricaoproduto" placeholder="Digite a descrição de um produto!">
                 <input class="btn btn-danger" type="submit"  value="Pesquisar!"><br><br>
@@ -67,7 +67,6 @@
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="voltarhomeautenticado">Home</a></li>
                         <li><a href="carrinho">Comprar</a></li>
-                        <li><a href="maisvendidos">Mais Vendidos</a></li>
                         <li><a href="#">Contato</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">

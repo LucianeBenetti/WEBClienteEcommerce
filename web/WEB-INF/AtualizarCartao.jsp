@@ -88,7 +88,7 @@
         %> 
         <div class="container">
 
-            <form action="fecharpedido" method="get"><br>
+            <form action="atualizarcartao" method="get"><br>
 
                 <h4>Confira o <b>Número do seu Cartão</b>. Se não estiver correto, digite o novo número e clique em Atualizar Cartão!</h4> <br><br>
                 <div class="form-group">

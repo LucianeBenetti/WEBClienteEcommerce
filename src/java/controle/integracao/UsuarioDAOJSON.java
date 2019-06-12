@@ -7,19 +7,18 @@ import controle.VO.Usuario;
 import java.util.ArrayList;
 
 public class UsuarioDAOJSON {
-    
-    public String serializaParaJSON(ArrayList<Usuario> usuarios) {
+
+    public String serializaParaJSON(Usuario usuario) {
         Gson gson = new GsonBuilder().create();
-        String json=gson.toJson(usuarios);  
+        String json = gson.toJson(usuario);
         return json;
     }
-    
-    public ArrayList<Usuario> desserializa(String s) {
+
+    public Usuario desserializa(String jsonString) {
+
         Gson gson = new GsonBuilder().create();
-        ArrayList<Usuario> listaDeUsuariosFromJSON = (ArrayList<Usuario>) gson.fromJson(s,
-                new TypeToken<ArrayList<Usuario>>() {
-                }.getType());
-        return listaDeUsuariosFromJSON;
+        Usuario usuarioFromJSON = (Usuario) gson.fromJson(jsonString, Usuario.class);
+        return usuarioFromJSON;
     }
-    
+
 }

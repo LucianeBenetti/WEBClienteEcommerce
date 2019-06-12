@@ -99,7 +99,6 @@
                         <th>Codigo do Pedido</th>
                         <th>Data do Pedido</th>
                         <th>Valor Total</th>
-                        <th>Excluir Pedido</th>
                     </tr>
                 </thead>
                 <%for (int i = 0; i < pedidosDeCompraDoUsuario.size(); i++) {

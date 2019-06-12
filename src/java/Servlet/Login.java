@@ -17,47 +17,44 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class ValidarUsuario extends HttpServlet {
+public class Login extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String login = request.getParameter("login");
         String senha = request.getParameter("senha");
-        String resourceURI = "http://localhost:8080/EcommerceServico/crudecommerce";
+        String resourceURI = "http://localhost:8080/EcommerceServico/validarusuario";
 
         String formatedURL = resourceURI;
-        String httpParameters = "?login=" + URLEncoder.encode(login, "UTF-8") + "&senha=" + URLEncoder.encode(senha, "UTF-8") + "&validar=";
+        String httpParameters = "?login=" + URLEncoder.encode(login, "UTF-8") + "&senha=" + URLEncoder.encode(senha, "UTF-8");
         URL url = new URL(formatedURL + httpParameters);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestProperty("accept", "JSON");
         con.setRequestMethod("GET");
         InputStream is = con.getInputStream();
-        String respose = convertStreamToString(is);
+        String resp = convertStreamToString(is);
 
         UsuarioDAOJSON usuarioDAOJSON = new UsuarioDAOJSON();
-        ArrayList<Usuario> usuariosEncontrados = usuarioDAOJSON.desserializa(respose);
-        System.out.println("O objeto usuario é: " + usuariosEncontrados);
+        Usuario usuarioEncontrado = usuarioDAOJSON.desserializa(resp);
+   
+        if (usuarioEncontrado != null) {
 
-        if (usuarioDAOJSON != null) {
-            for (int i = 0; i < usuariosEncontrados.size(); i++) {
+            HttpSession session = request.getSession();
+            session.setAttribute("usuarioautenticado", usuarioEncontrado);
 
-                HttpSession session = request.getSession();
-                session.setAttribute("usuarioautenticado", usuariosEncontrados);
+            request.setAttribute("datavalidade", usuarioEncontrado.getDataValidade());
+            request.setAttribute("numerocartao", usuarioEncontrado.getNumeroCartao());
+            request.setAttribute("codigoseguranca", usuarioEncontrado.getCodigoSeguranca());
+            request.setAttribute("login", usuarioEncontrado.getLogin());
+            request.setAttribute("senha", usuarioEncontrado.getSenha());
+            request.getRequestDispatcher("WEB-INF/EcommerceValidado.jsp").forward(request, response);
 
-                request.setAttribute("datavalidade", usuariosEncontrados.get(i).getDataValidade());
-                request.setAttribute("numerocartao", usuariosEncontrados.get(i).getNumeroCartao());
-                request.setAttribute("codigoseguranca", usuariosEncontrados.get(i).getCodigoSeguranca());
-                request.setAttribute("login", usuariosEncontrados.get(i).getLogin());
-                request.setAttribute("senha", usuariosEncontrados.get(i).getSenha());
-                request.getRequestDispatcher("WEB-INF/EcommerceValidado.jsp").forward(request, response);
-            }
-       
-    } 
-        else {
+        } else {
             Boolean validacao = false;
-        request.getRequestDispatcher("Login.jsp").forward(request, response);
-    }
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
+        }
+
     }
 
     private static String convertStreamToString(InputStream is) {
