@@ -4,16 +4,16 @@
         <welcome-file>LuMarEcommerce.jsp</welcome-file>
     </welcome-file-list>
     <servlet>
-        <servlet-name>ItemSolicitadoPeloClitente</servlet-name>
-        <servlet-class>Servlet.ItemSolicitadoPeloClitente</servlet-class>
+        <servlet-name>ItemSolicitadoPeloCliente</servlet-name>
+        <servlet-class>Servlet.ItemSolicitadoPeloCliente</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ValidarUsuario</servlet-name>
         <servlet-class>Servlet.ValidarUsuario</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ItemSolicitadoPeloClitente</servlet-name>
-        <url-pattern>/itemsolicitadopeloclitente</url-pattern>
+        <servlet-name>ItemSolicitadoPeloCliente</servlet-name>
+        <url-pattern>/itemsolicitadopelocliente</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ValidarUsuario</servlet-name>
