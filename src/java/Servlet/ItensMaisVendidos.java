@@ -29,10 +29,7 @@ public class ItensMaisVendidos extends HttpServlet {
 
         String resourceURI = "http://localhost:8080/EcommerceServico/maisvendidos";
 
-//        String formatedURL = resourceURI;
-//        String httpParameters = "?descricaoproduto=" + URLEncoder.encode(descricao, "UTF-8");
-//        URL url = new URL(formatedURL+httpParameters);
-        String formatedURL = resourceURI;//+ httpParameters;
+       String formatedURL = resourceURI;//+ httpParameters;
         URL url = new URL(formatedURL);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestProperty("accept", "JSON");

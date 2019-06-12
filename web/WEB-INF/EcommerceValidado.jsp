@@ -70,7 +70,7 @@
                                 Minha Conta
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="listartodospedidos">Listar/Cancelar Pedidos</a><br>
+                                <a class="dropdown-item" href="exibirtodosospedidos">Listar/Cancelar Pedidos</a><br>
                                 <a class="dropdown-item" href="atualizarcartao">Alterar Forma de pagamento</a><br>
                             </div>
                         </li>

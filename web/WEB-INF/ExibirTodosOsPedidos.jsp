@@ -54,7 +54,7 @@
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="voltarhomeautenticado">Home</a></li>
                         <li><a href="carrinho">Comprar</a></li>
-                        <li><a href="maisvendidos">Mais Vendidos</a></li>
+                        <li><a href="itensmaisvendidos">Mais Vendidos</a></li>
                         <li><a href="#">Contato</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
