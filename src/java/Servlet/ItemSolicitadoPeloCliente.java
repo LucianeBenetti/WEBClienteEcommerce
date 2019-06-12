@@ -1,25 +1,26 @@
 package Servlet;
 
-import controle.DAO.DAOItem;
 import controle.VO.Item;
 import controle.integracao.ItemDAOJSON;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class PesquisarItemJSON extends HttpServlet {
+public class ItemSolicitadoPeloCliente extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+       
         String descricao = request.getParameter("descricaoproduto");
         String resourceURI = "http://localhost:8080/EcommerceServico/pesquisaritem";
 
