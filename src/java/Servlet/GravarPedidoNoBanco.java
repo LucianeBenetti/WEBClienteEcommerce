@@ -2,6 +2,7 @@ package Servlet;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import controle.BO.UsuarioBo;
 import controle.VO.Item;
 import controle.VO.ItemPedido;
 import controle.VO.Usuario;
@@ -34,27 +35,40 @@ public class GravarPedidoNoBanco extends HttpServlet {
         Object total = request.getSession().getAttribute("valortotal");
 
         Usuario dadosDoUsuario = (Usuario) usuarioAutenticado;
+
+        Usuario usuario = new Usuario();
+        usuario.setCodigoUsuario(dadosDoUsuario.getCodigoUsuario());
+        usuario.setCodigoSeguranca(dadosDoUsuario.getCodigoSeguranca());
+        usuario.setLogin(dadosDoUsuario.getLogin());
+        usuario.setSenha(dadosDoUsuario.getSenha());
+        usuario.setDataValidade(dadosDoUsuario.getDataValidade());
+        usuario.setNumeroCartao(dadosDoUsuario.getNumeroCartao());
+        String usuarioJSON;
+        UsuarioDAOJSON usuarioDAOJSON = new UsuarioDAOJSON();
+        usuarioJSON = usuarioDAOJSON.serializaParaJSON(usuario);
+        
         ArrayList<Item> pedidoFechado = (ArrayList<Item>) fecharPedido;
         ArrayList<Integer> qtidades = (ArrayList<Integer>) quantidadeItem;
-        int codigoUsuario = dadosDoUsuario.getCodigoUsuario();
-        String codUsuario = Integer.toString(codigoUsuario);
+
+        usuario.setCodigoUsuario(dadosDoUsuario.getCodigoUsuario());
         double valorTotal = new Double((double) total);
         String totalDoPedido = Double.toString(valorTotal);
         String itemJson = null;
 
         ItemDAOJSON itemDAOJSON = new ItemDAOJSON();
         itemJson = itemDAOJSON.serializa(pedidoFechado);
+        PrintWriter out = response.getWriter();
+        out.print(itemJson);
 
         Gson gson = new GsonBuilder().create();
         String qtdJson = gson.toJson(qtidades);
 
-        PrintWriter out = response.getWriter();
-        out.print(itemJson);
+        out = response.getWriter();
         out.print(qtdJson);
 
         String resourceURI = "http://localhost:8080/EcommerceServico/gravarpedidonobanco";
         String formatedURL = resourceURI;
-        String httpParameters = "?codUsuario=" + URLEncoder.encode(codUsuario, "UTF-8")
+        String httpParameters = "?usuarioJSON=" + URLEncoder.encode(usuarioJSON, "UTF-8")
                 + "&itemJson=" + URLEncoder.encode(itemJson, "UTF-8")
                 + "&qtdJson=" + URLEncoder.encode(qtdJson, "UTF-8")
                 + "&totalDoPedido=" + URLEncoder.encode(totalDoPedido, "UTF-8");
@@ -69,13 +83,13 @@ public class GravarPedidoNoBanco extends HttpServlet {
         ItemPedidoDAOJSON itempedidoDAOJSON = new ItemPedidoDAOJSON();
         ArrayList<ItemPedido> itemPedido = itempedidoDAOJSON.desserializa(resp);
 
-//        if (usuarioEncontrado != null) {
-//
-//
-//        } else {
-//            Boolean validacao = false;
-//            request.getRequestDispatcher("Login.jsp").forward(request, response);
-//        }
+        if (itemPedido != null) {
+            System.out.print("Pedido incluido com sucesso");
+
+        } else {
+
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
+        }
     }
 
     private static String convertStreamToString(InputStream is) {

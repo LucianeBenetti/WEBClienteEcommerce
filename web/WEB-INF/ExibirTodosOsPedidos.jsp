@@ -64,7 +64,7 @@
                                 Minha Conta
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href=".jsp">Listar/Cancelar Pedidos</a><br>
+                                <a class="dropdown-item" href="exibirtodosospedidos">Listar/Cancelar Pedidos</a><br>
                                 <a class="dropdown-item" href="atualizarcartao">Alterar Forma de pagamento</a><br>
                             </div>
                         </li>
@@ -115,8 +115,7 @@
                 </tbody>
             </table>
             <br><br>                
-            <form action="crudecommerce" method="get">
-                <input type="hidden" id="excluirpedido" name="excluirpedido" value="excluirpedido">
+            <form action="excluirpedido" method="get">
                 Se desejar excluir um Pedido, digite o Código do Pedido e clique no botão Excluir.<br><br>
                 <input type="text" name="codigopedido">
                 <input type="submit" class="btn" value="Excluir">

@@ -47,6 +47,14 @@
         <servlet-name>ExibirCartaoAtual</servlet-name>
         <servlet-class>Servlet.ExibirCartaoAtual</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ExcluirPedido</servlet-name>
+        <servlet-class>Servlet.ExcluirPedido</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CadastrarUsuario</servlet-name>
+        <servlet-class>Servlet.CadastrarUsuario</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ItemSolicitadoPeloCliente</servlet-name>
         <url-pattern>/itemsolicitadopelocliente</url-pattern>
@@ -90,6 +98,14 @@
     <servlet-mapping>
         <servlet-name>ExibirCartaoAtual</servlet-name>
         <url-pattern>/exibircartaoatual</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ExcluirPedido</servlet-name>
+        <url-pattern>/excluirpedido</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CadastrarUsuario</servlet-name>
+        <url-pattern>/cadastrarusuario</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

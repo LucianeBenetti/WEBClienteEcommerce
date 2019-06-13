@@ -22,7 +22,7 @@
         <div class="container">
             <h2>Loja Digital LuMar!</h2>
             <p> Cadastrar Usuario!</P>
-            <form class="was-validated" action="validarusuario" method="post">
+            <form class="was-validated" action="cadastrarusuario" method="post">
                 <div class="form-group">
                     <label for="nome">Login:</label>
                     <input type="text" class="form-control" id="login" placeholder="Digite um nome para o seu login" name="login" required>
@@ -31,14 +31,13 @@
                 </div>
                 <div class="form-group">
                     <label for="pwd">Senha:</label>
-                    <input type="password" class="form-control" id="sena" placeholder="Digite uma senha" name="senha" required>
+                    <input type="password" class="form-control" id="senha" placeholder="Digite uma senha" name="senha" required>
                     <div class="valid-feedback">Campo preenchido. Ok!</div>
                     <div class="invalid-feedback">Esse campo é obrigatório.</div>
                     <small id="senha" class="form-text text-muted">Nunca compartilhe a sua senha!</small>                
                 </div>
 
-                <input type="hidden" id="cadastrar" name="cadastrar" value="cadastrar">
-                <button type="submit" class="btn btn-primary">Cadastrar Usuário</button>
+                 <button type="submit" class="btn btn-primary">Cadastrar Usuário</button>
 
                 <div class="form-group form-check" style =" float: top">
                     <label class="form-check-label">

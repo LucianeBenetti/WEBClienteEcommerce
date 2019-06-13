@@ -1,60 +1,54 @@
 package Servlet;
 
-import controle.VO.Item;
+import controle.BO.ItemPedidoBo;
+import controle.BO.PedidoCompraBo;
+import controle.VO.PedidoCompra;
 import controle.VO.Usuario;
-import controle.integracao.ItemDAOJSON;
-import controle.integracao.UsuarioDAOJSON;
+import controle.integracao.PedidoCompraDAOJSON;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.sql.Date;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-public class Login extends HttpServlet {
+public class ExcluirPedido extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        String login = request.getParameter("login");
-        String senha = request.getParameter("senha");
-        String resourceURI = "http://localhost:8080/EcommerceServico/validarusuario";
+
+        int codPedido = new Integer(request.getParameter("codigopedido"));
+
+        String codigoPedido = Integer.toString(codPedido);
+        String resourceURI = "http://localhost:8080/EcommerceServico/excluirpedido";
 
         String formatedURL = resourceURI;
-        String httpParameters = "?login=" + URLEncoder.encode(login, "UTF-8") + "&senha=" + URLEncoder.encode(senha, "UTF-8");
+        String httpParameters = "?codigopedido=" + URLEncoder.encode(codigoPedido, "UTF-8");
         URL url = new URL(formatedURL + httpParameters);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestProperty("accept", "JSON");
-        con.setRequestMethod("GET");
+        con.setRequestMethod("DELETE");
         InputStream is = con.getInputStream();
         String resp = convertStreamToString(is);
 
-        UsuarioDAOJSON usuarioDAOJSON = new UsuarioDAOJSON();
-        Usuario usuarioEncontrado = usuarioDAOJSON.desserializa(resp);
-   
-        if (usuarioEncontrado != null) {
+        PedidoCompraDAOJSON pedidoCompraDAOJSON = new PedidoCompraDAOJSON();
+        PedidoCompra pedidoCompraCancelado = pedidoCompraDAOJSON.desserializa(resp);
+    
+        if (pedidoCompraCancelado != null) {
 
-            HttpSession session = request.getSession();
-            session.setAttribute("usuarioautenticado", usuarioEncontrado);
-
-            request.setAttribute("datavalidade", usuarioEncontrado.getDataValidade());
-            request.setAttribute("numerocartao", usuarioEncontrado.getNumeroCartao());
-            request.setAttribute("codigoseguranca", usuarioEncontrado.getCodigoSeguranca());
-            request.setAttribute("login", usuarioEncontrado.getLogin());
-            request.setAttribute("senha", usuarioEncontrado.getSenha());
-            request.getRequestDispatcher("WEB-INF/EcommerceValidado.jsp").forward(request, response);
+            request.setAttribute("pedidodecompracancelado", pedidoCompraCancelado);
+            request.getRequestDispatcher("WEB-INF/ExibirTodosOsPedidos.jsp").forward(request, response);
 
         } else {
             request.getRequestDispatcher("Login.jsp").forward(request, response);
         }
-
     }
 
     private static String convertStreamToString(InputStream is) {
