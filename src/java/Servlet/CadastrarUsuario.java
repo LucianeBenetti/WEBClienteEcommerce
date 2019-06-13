@@ -15,38 +15,37 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class CadastrarUsuario extends HttpServlet {
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         String login = request.getParameter("login");
         String senha = request.getParameter("senha");
+
         String resourceURI = "http://localhost:8080/EcommerceServico/cadastrarusuario";
-        
+
         String formatedURL = resourceURI;
         String httpParameters = "?login=" + URLEncoder.encode(login, "UTF-8") + "&senha=" + URLEncoder.encode(senha, "UTF-8");
         URL url = new URL(formatedURL + httpParameters);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestProperty("accept", "JSON");
         con.setRequestMethod("POST");
+
         InputStream is = con.getInputStream();
         String resp = convertStreamToString(is);
-        
+
         UsuarioDAOJSON usuarioDAOJSON = new UsuarioDAOJSON();
         Usuario usuarioEncontrado = usuarioDAOJSON.desserializa(resp);
-        
-        System.out.print("usuariocadastrado cliente" + usuarioEncontrado);
+
         if (usuarioEncontrado != null) {
-            
             request.getRequestDispatcher("Login.jsp").forward(request, response);
-            
+
         } else {
-            request.getRequestDispatcher("Login.jsp").forward(request, response);
+            request.getRequestDispatcher("CadastrarUsuario.jsp").forward(request, response);
         }
-        
     }
-    
+
     private static String convertStreamToString(InputStream is) {
         java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";

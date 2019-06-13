@@ -25,16 +25,16 @@ public class AtualizarCartao extends HttpServlet {
         Usuario dadosDoUsuario = (Usuario) usuarioAutenticado;
 
         Usuario usuario = null;
-        UsuarioBo usuarioBo = null;
-
         usuario = new Usuario();
         usuario.setCodigoUsuario(dadosDoUsuario.getCodigoUsuario());
         usuario.setCodigoSeguranca(dadosDoUsuario.getCodigoSeguranca());
         usuario.setLogin(dadosDoUsuario.getLogin());
         usuario.setSenha(dadosDoUsuario.getSenha());
         usuario.setDataValidade(dadosDoUsuario.getDataValidade());
+        
         int numeroCartao = new Integer(request.getParameter("numerocartao"));
         usuario.setNumeroCartao(numeroCartao);
+        
         String usuarioJSON;
         UsuarioDAOJSON usuarioDAOJSON = new UsuarioDAOJSON();
         usuarioJSON = usuarioDAOJSON.serializaParaJSON(usuario);
@@ -47,22 +47,20 @@ public class AtualizarCartao extends HttpServlet {
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestProperty("accept", "JSON");
         con.setRequestMethod("PUT");
+        
         InputStream is = con.getInputStream();
         String resp = convertStreamToString(is);
 
         usuarioDAOJSON = new UsuarioDAOJSON();
-        Usuario usuarioEncontrado = usuarioDAOJSON.desserializa(resp);
-        System.out.println("Servlet.AtualizarCartao.processRequest()" + usuarioEncontrado);
+        Usuario usuarioCartaoAtualizado = usuarioDAOJSON.desserializa(resp);
 
-        if (usuarioEncontrado != null) {
+        if (usuarioCartaoAtualizado != null) {
 
             int numeroCartaoOK = 1;
-            request.getSession().getAttribute("pedidocompra");
             request.setAttribute("cartaoatualizado", numeroCartaoOK);
             request.getRequestDispatcher("WEB-INF/AtualizarCartao.jsp").forward(request, response);
 
         } else {
-            Boolean validacao = false;
             request.getRequestDispatcher("Login.jsp").forward(request, response);
         }
 

@@ -14,7 +14,7 @@ public class ExibirCartaoAtual extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-         Object usuarioAutenticado = request.getSession().getAttribute("usuarioautenticado");
+        Object usuarioAutenticado = request.getSession().getAttribute("usuarioautenticado");
 
         Usuario dadosDoUsuario = (Usuario) usuarioAutenticado;
         String nomeUsuario = dadosDoUsuario.getLogin();
