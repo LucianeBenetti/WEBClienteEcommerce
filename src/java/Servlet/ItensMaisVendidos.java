@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Servlet;
 
 import controle.VO.Item;
@@ -29,17 +24,17 @@ public class ItensMaisVendidos extends HttpServlet {
 
         String resourceURI = "http://localhost:8080/EcommerceServico/maisvendidos";
 
-       String formatedURL = resourceURI;//+ httpParameters;
+        String formatedURL = resourceURI;//+ httpParameters;
         URL url = new URL(formatedURL);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestProperty("accept", "JSON");
         con.setRequestMethod("GET");
         InputStream is = con.getInputStream();
         String respose = convertStreamToString(is);
+        
         ItemPedidoDAOJSON itemPedidoDAOJSON = new ItemPedidoDAOJSON();
         ArrayList<ItemPedido> itensMaisVendidos = itemPedidoDAOJSON.desserializa(respose);
-        System.out.println("O objeto item é: " + itensMaisVendidos);
-
+    
         if (itemPedidoDAOJSON != null) {
             request.setAttribute("itensmaisvendidos", itensMaisVendidos);
             request.getRequestDispatcher("MaisVendidos.jsp").forward(request, response);

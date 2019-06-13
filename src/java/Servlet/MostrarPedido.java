@@ -1,47 +1,77 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Servlet;
 
+import controle.VO.Item;
+import controle.VO.Usuario;
+import controle.integracao.ItemDAOJSON;
+import controle.integracao.UsuarioDAOJSON;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author 80130917
- */
 public class MostrarPedido extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet MostrarPedido</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet MostrarPedido at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
+        Object listaDeItens = request.getSession().getAttribute("listadeitens");
+        Object usuarioAutenticado = request.getSession().getAttribute("usuarioautenticado");
+
+        Double valorTotalDoItem = 0.0;
+        Double valorTotal = 0.0;
+        Usuario dadosDoUsuario = (Usuario) usuarioAutenticado;
+        String nomeUsuario = dadosDoUsuario.getLogin();
+        int numeroCartao = dadosDoUsuario.getNumeroCartao();
+
+        if (listaDeItens != null) {
+
+            ArrayList<Item> itens = (ArrayList<Item>) listaDeItens;
+            ArrayList<Item> pedidoCompra = new ArrayList<Item>();
+            ArrayList<Integer> quantidades = new ArrayList<Integer>();
+            DecimalFormat df = new DecimalFormat("0.00");
+
+            for (int i = 0; i < itens.size(); i++) {
+
+                int codigoDoItem = itens.get(i).getCodigoItem();
+                String descricaoDoItem = itens.get(i).getDescricao();
+                String detalheDoItem = itens.get(i).getDetalhes();
+                String nomeDoItem = itens.get(i).getNome();
+                Double valorDoItem = itens.get(i).getValor();
+                String quantidade = request.getParameter("quantidade_" + i);
+
+                int qtidade = Integer.valueOf(quantidade);
+                quantidades.add(qtidade);
+
+                Item item = new Item(codigoDoItem, descricaoDoItem, detalheDoItem, nomeDoItem, valorDoItem);
+                pedidoCompra.add(item);
+
+                valorTotalDoItem = valorDoItem * qtidade;
+                valorTotal += valorTotalDoItem;
+
+                request.setAttribute("valortotal", df.format(valorTotal));
+                request.setAttribute("nomeusuario", nomeUsuario);
+                request.setAttribute("numerocartao", numeroCartao);
+            }
+            HttpSession session = request.getSession();
+            session.setAttribute("pedidocompra", pedidoCompra);
+            session.setAttribute("quantidades", quantidades);
+            session.setAttribute("valortotal", valorTotal);
+
+            request.setAttribute("quantidades", quantidades);
+            request.setAttribute("pedidocompra", pedidoCompra);
         }
+        request.getRequestDispatcher("WEB-INF/MostrarPedido.jsp").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

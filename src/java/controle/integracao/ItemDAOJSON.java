@@ -19,7 +19,6 @@ public class ItemDAOJSON {
     public ArrayList<Item> desserializa(String s) {
         
         Gson gson = new GsonBuilder().create();
-        
         ArrayList<Item> listaDeItensFromJSON = (ArrayList<Item>) gson.fromJson(s,
                         new TypeToken<ArrayList<Item>>() {
                         }.getType());

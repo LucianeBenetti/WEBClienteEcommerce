@@ -1,47 +1,76 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Servlet;
 
+import controle.BO.UsuarioBo;
+import controle.VO.Usuario;
+import controle.integracao.UsuarioDAOJSON;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author 80130917
- */
 public class AtualizarCartao extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AtualizarCartao</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AtualizarCartao at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
+        Object usuarioAutenticado = request.getSession().getAttribute("usuarioautenticado");
+        Usuario dadosDoUsuario = (Usuario) usuarioAutenticado;
+
+        Usuario usuario = null;
+        UsuarioBo usuarioBo = null;
+
+        usuario = new Usuario();
+        usuario.setCodigoUsuario(dadosDoUsuario.getCodigoUsuario());
+        usuario.setCodigoSeguranca(dadosDoUsuario.getCodigoSeguranca());
+        usuario.setLogin(dadosDoUsuario.getLogin());
+        usuario.setSenha(dadosDoUsuario.getSenha());
+        usuario.setDataValidade(dadosDoUsuario.getDataValidade());
+        int numeroCartao = new Integer(request.getParameter("numerocartao"));
+        usuario.setNumeroCartao(numeroCartao);
+        String usuarioJSON;
+        UsuarioDAOJSON usuarioDAOJSON = new UsuarioDAOJSON();
+        usuarioJSON = usuarioDAOJSON.serializaParaJSON(usuario);
+
+        String resourceURI = "http://localhost:8080/EcommerceServico/atualizarcartao";
+
+        String formatedURL = resourceURI;
+        String httpParameters = "?usuario=" + URLEncoder.encode(usuarioJSON, "UTF-8");
+        URL url = new URL(formatedURL + httpParameters);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestProperty("accept", "JSON");
+        con.setRequestMethod("PUT");
+        InputStream is = con.getInputStream();
+        String resp = convertStreamToString(is);
+
+        usuarioDAOJSON = new UsuarioDAOJSON();
+        Usuario usuarioEncontrado = usuarioDAOJSON.desserializa(resp);
+        System.out.println("Servlet.AtualizarCartao.processRequest()" + usuarioEncontrado);
+
+        if (usuarioEncontrado != null) {
+
+            int numeroCartaoOK = 1;
+            request.getSession().getAttribute("pedidocompra");
+            request.setAttribute("cartaoatualizado", numeroCartaoOK);
+            request.getRequestDispatcher("WEB-INF/AtualizarCartao.jsp").forward(request, response);
+
+        } else {
+            Boolean validacao = false;
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
         }
+
+    }
+
+    private static String convertStreamToString(InputStream is) {
+        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+        return s.hasNext() ? s.next() : "";
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

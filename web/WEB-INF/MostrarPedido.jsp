@@ -136,7 +136,7 @@
 
             </table><br>
 
-            <form action="fecharpedido" method="get"><br>
+            <form action="fecharpedido" method="post"><br>
 
                 <h4>Dados para cobrança!</b></h4> <br><br>
 
@@ -152,8 +152,7 @@
 
             </form>
 
-            <form action="fecharpedido" method="get"><br>      
-                <input type="hidden" id="fecharpedido" name="fecharpedido" value="fecharpedido">
+            <form action="gravarpedidonobanco" method="post"><br>      
                 <button type="submit" class="btn btn-primary">Fechar Pedido</button>
 
             </form>

@@ -28,10 +28,6 @@
         <servlet-class>Servlet.MostrarPedido</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>PedidoFechado</servlet-name>
-        <servlet-class>Servlet.PedidoFechado</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ExibirTodosOsPedidos</servlet-name>
         <servlet-class>Servlet.ExibirTodosOsPedidos</servlet-class>
     </servlet>
@@ -42,6 +38,14 @@
     <servlet>
         <servlet-name>SairDoSistema</servlet-name>
         <servlet-class>Servlet.SairDoSistema</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GravarPedidoNoBanco</servlet-name>
+        <servlet-class>Servlet.GravarPedidoNoBanco</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ExibirCartaoAtual</servlet-name>
+        <servlet-class>Servlet.ExibirCartaoAtual</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ItemSolicitadoPeloCliente</servlet-name>
@@ -68,10 +72,6 @@
         <url-pattern>/mostrarpedido</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>PedidoFechado</servlet-name>
-        <url-pattern>/pedidofechado</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>ExibirTodosOsPedidos</servlet-name>
         <url-pattern>/exibirtodosospedidos</url-pattern>
     </servlet-mapping>
@@ -82,6 +82,14 @@
     <servlet-mapping>
         <servlet-name>SairDoSistema</servlet-name>
         <url-pattern>/sairdosistema</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GravarPedidoNoBanco</servlet-name>
+        <url-pattern>/gravarpedidonobanco</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ExibirCartaoAtual</servlet-name>
+        <url-pattern>/exibircartaoatual</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

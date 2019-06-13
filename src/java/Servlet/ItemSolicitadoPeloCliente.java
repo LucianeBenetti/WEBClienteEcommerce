@@ -31,6 +31,7 @@ public class ItemSolicitadoPeloCliente extends HttpServlet {
         con.setRequestMethod("GET");
         InputStream is = con.getInputStream();
         String respose = convertStreamToString(is);
+        
         ItemDAOJSON itemDAOJSON = new ItemDAOJSON();
         ArrayList<Item> itensEncontrados = itemDAOJSON.desserializa(respose);
         System.out.println("O objeto item é: " + itensEncontrados);

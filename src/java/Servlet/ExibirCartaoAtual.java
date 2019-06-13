@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Servlet;
 
+import controle.VO.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -12,36 +8,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author 80130917
- */
-public class PedidoFechado extends HttpServlet {
+public class ExibirCartaoAtual extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+      protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet PedidoFechado</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet PedidoFechado at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
+         Object usuarioAutenticado = request.getSession().getAttribute("usuarioautenticado");
+
+        Usuario dadosDoUsuario = (Usuario) usuarioAutenticado;
+        String nomeUsuario = dadosDoUsuario.getLogin();
+        int numeroCartao = dadosDoUsuario.getNumeroCartao();
+
+        request.setAttribute("nomeusuario", nomeUsuario);
+        request.setAttribute("numerocartao", numeroCartao);
+        request.getRequestDispatcher("WEB-INF/AtualizarCartao.jsp").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

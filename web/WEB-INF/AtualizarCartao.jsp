@@ -100,8 +100,7 @@
                     <label for="nome">Número do Cartão:</label>
                     <input type="text" value="<% out.print(numeroCartao);%>" name="numerocartao" class="form-control" id="numerocartao" required>
                 </div>
-                <input type="hidden" id="atualizarcartao" name="atualizarcartao" value="atualizarcartao">
-                <input type="submit" class="btn btn-danger" value="Atualizar Cartão">
+                    <input type="submit" class="btn btn-danger" value="Atualizar Cartão">
             </form>
 
             <%}
