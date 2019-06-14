@@ -1,3 +1,4 @@
+<%@page import="controle.VO.Usuario"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="controle.VO.Item"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -38,63 +39,66 @@
     </style>
 </head>
 <body>
-    
+
     <div class="container text-center">
 
-            <h4>Digital LuMar - Confira abaixo os produtos oferecidos pela melhor loja da Internet, 
-                ou pesquise por um produto específico</h4>
-            <form action="itemsolicitadopelocliente" method="get">
-                Pesquise aqui:
-                <input type="text" size="60" name="descricaoproduto" placeholder="Digite a descrição de um produto!">
-                <input class="btn btn-danger" type="submit"  value="Pesquisar!"><br><br>
+        <h4>Digital LuMar - Confira abaixo os produtos oferecidos pela melhor loja da Internet, 
+            ou pesquise por um produto específico</h4>
+        <form action="itemsolicitadopelocliente" method="get">
+            Pesquise aqui:
+            <input type="text" size="60" name="descricaoproduto" placeholder="Digite a descrição de um produto!">
+            <input class="btn btn-danger" type="submit"  value="Pesquisar!"><br><br>
 
-            </form>
+        </form>
 
-        </div>
-    
-    
-<nav class="navbar navbar-inverse">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>                        
-                    </button>
-                    <a class="navbar-brand" style="padding:4px; float: bottom"><i class="fas fa-globe" style="font-size:40px;color:red;"></i></a>
-                </div>
-                <div class="collapse navbar-collapse" id="myNavbar">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="voltarhomeautenticado">Home</a></li>
-                        <li><a href="carrinho">Comprar</a></li>
-                        <li><a href="#">Contato</a></li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
+    </div>
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span>
-                                Minha Conta
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="listartodospedidos">Listar/Cancelar Pedidos</a><br>
-                                <a class="dropdown-item" href="atualizarcartao">Alterar Forma de pagamento</a><br>
-                            </div>
-                        </li>
 
-                        <li><input class="btn" style="margin: 14px 0px 10px 10px; padding: 0px;"  size="10" type="text" value="<%out.println("Olá " + request.getAttribute("login") + "!");%>"></li>
-                        <li><a href="carrinho"><span class="glyphicon glyphicon-shopping-cart"></span>Carrinho</a></li>
-                        <li>
-                            <form action="sairdosistema" method="post">
-                                
-                                <input class="btn" type="submit" value="Sair" style="padding: 2px; margin-top: 12px;">  
-                            </form> 
-                        </li>
-                    </ul>
-                </div>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>                        
+                </button>
+                <a class="navbar-brand" style="padding:4px; float: bottom"><i class="fas fa-globe" style="font-size:40px;color:red;"></i></a>
             </div>
-        </nav>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="voltarhomeautenticado">Home</a></li>
+                    <li><a href="carrinho">Comprar</a></li>
+                    <li><a href="#">Contato</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
 
-    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span>
+                            Minha Conta
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="listartodospedidos">Listar/Cancelar Pedidos</a><br>
+                            <a class="dropdown-item" href="atualizarcartao">Alterar Forma de pagamento</a><br>
+                        </div>
+                    </li>
+                    <% Object usuarioAutenticado = request.getSession().getAttribute("usuarioautenticado");
+                        Usuario dadosDoUsuario = (Usuario) usuarioAutenticado;
+                        String nomeDoUsuario = dadosDoUsuario.getLogin();
+                    %>
+                    <li><input class="btn" style="margin: 14px 0px 10px 10px; padding: 0px;"  size="10" type="text" value="<%out.println("Olá " + dadosDoUsuario + "!");%>"></li>
+                    <li><a href="carrinho"><span class="glyphicon glyphicon-shopping-cart"></span>Carrinho</a></li>
+                    <li>
+                        <form action="sairdosistema" method="post">
+
+                            <input class="btn" type="submit" value="Sair" style="padding: 2px; margin-top: 12px;">  
+                        </form> 
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
     <div class="container">
         <h2>Resultado da Pesquisa!</h2>
 

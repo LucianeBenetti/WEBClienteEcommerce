@@ -4,6 +4,7 @@
     Author     : 80130917
 --%>
 
+<%@page import="controle.VO.Usuario"%>
 <%@page import="controle.VO.Item"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="controle.VO.PedidoCompra"%>
@@ -74,11 +75,11 @@
                                 <a class="dropdown-item" href="atualizarcartao">Alterar Forma de pagamento</a><br>
                             </div>
                         </li>
-
-                        <li><input class="btn" style="margin: 14px 0px 10px 10px; padding: 0px;"  size="10" type="text" value="<%out.println("Olá " + request.getAttribute("nomeusuario") + "!");%>"></li>
+                    
+                        <li><input class="btn" style="margin: 14px 0px 10px 10px; padding: 0px;"  size="10" type="text" value="<%out.println("Olá " + (request.getAttribute("nomeusuario")) + "!");%>"></li>
                         <li><a href="carrinho"><span class="glyphicon glyphicon-shopping-cart"></span>Carrinho</a></li>
                         <li>
-                            <form action="fecharpedido" method="post">
+                            <form action="sairdosistema" method="post">
                                 <input type="hidden" id="sairdosistema" name="sairdosistema" value="sairdosistema">
                                 <input class="btn" type="submit" name="sairdosistema" value="Sair">  
                             </form> 

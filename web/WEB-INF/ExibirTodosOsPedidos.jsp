@@ -1,4 +1,5 @@
 
+<%@page import="controle.VO.Usuario"%>
 <%@page import="controle.VO.PedidoCompra"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -68,11 +69,14 @@
                                 <a class="dropdown-item" href="atualizarcartao">Alterar Forma de pagamento</a><br>
                             </div>
                         </li>
-
-                        <li><input class="btn" style="margin: 14px 0px 10px 10px; padding: 0px;"  size="10" type="text" value="<%out.println("Olá " + request.getAttribute("nomeusuario") + "!");%>"></li>
+                        <% Object usuarioAutenticado = request.getSession().getAttribute("usuarioautenticado");
+                            Usuario dadosDoUsuario = (Usuario) usuarioAutenticado;
+                            String nomeDoUsuario = dadosDoUsuario.getLogin();
+                        %>
+                        <li><input class="btn" style="margin: 14px 0px 10px 10px; padding: 0px;"  size="10" type="text" value="<%out.println("Olá " + nomeDoUsuario + "!");%>"></li>
                         <li><a href="carrinho"><span class="glyphicon glyphicon-shopping-cart"></span>Carrinho</a></li>
                         <li>
-                            <form action="fecharpedido" method="post">
+                            <form action="sairdosistema" method="post">
                                 <input type="hidden" id="sairdosistema" name="sairdosistema" value="sairdosistema">
                                 <input class="btn" type="submit" name="sairdosistema" value="Sair">  
                             </form> 
@@ -83,7 +87,7 @@
         </nav>
 
         <div class="container">
-            
+
             <h2>Esses são os seus pedidos!</h2><br><br>
             <%
 
@@ -120,20 +124,20 @@
                 <input type="text" name="codigopedido">
                 <input type="submit" class="btn" value="Excluir">
             </form>
-        
-        <%}%>
-   
-    <h2>
-                
-        <%
-                Object pedidoDeCompraCancelado = request.getAttribute("pedidodecompracancelado");
-              
-                if (pedidoDeCompraCancelado != null) {                
-                  
-                    out.println("O seu Pedido foi cancelado com sucesso!");                                
-                }
-            %>       
-    </h2>    
-    </div>
-</body>
+
+            <%}%>
+
+            <h2>
+
+                <%
+                    Object pedidoDeCompraCancelado = request.getAttribute("pedidodecompracancelado");
+
+                    if (pedidoDeCompraCancelado != null) {
+
+                        out.println("O seu Pedido foi cancelado com sucesso!");
+                    }
+                %>       
+            </h2>    
+        </div>
+    </body>
 </html>

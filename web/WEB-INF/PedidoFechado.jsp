@@ -4,6 +4,7 @@
     Author     : 80119050
 --%>
 
+<%@page import="controle.VO.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -71,11 +72,11 @@
                                 <a class="dropdown-item" href="atualizarcartao">Alterar Forma de pagamento</a><br>
                             </div>
                         </li>
-
-                        <li><input class="btn" style="margin: 14px 0px 10px 10px; padding: 0px;"  size="10" type="text" value="<%out.println("Olá " + request.getAttribute("nomeusuario") + "!");%>"></li>
+                
+                        <li><input class="btn" style="margin: 14px 0px 10px 10px; padding: 0px;"  size="10" type="text" value="<%out.println("Olá " + (request.getAttribute("nomedousuario")) + "!");%>"></li>
                         <li><a href="carrinho"><span class="glyphicon glyphicon-shopping-cart"></span>Carrinho</a></li>
                         <li>
-                            <form action="fecharpedido" method="post">
+                            <form action="sairdosistema" method="post">
                                 <input type="hidden" id="sairdosistema" name="sairdosistema" value="sairdosistema">
                                 <input class="btn" type="submit" name="sairdosistema" value="Sair">  
                             </form> 
@@ -86,7 +87,7 @@
         </nav>
 
         <div class="container">
-            <h1>Seu pedido foi Finalizado! Anote seu cóigo de segurança: </h1>
+            <h1>Seu pedido foi Finalizado! Anote seu código de segurança: </h1>
             <%
                 Object nomeDoUsuario = request.getAttribute("nomedousuario");
                 Object codigoSeguranca = request.getAttribute("codigoseguranca");
