@@ -33,8 +33,7 @@ public class Carrinho extends HttpServlet {
         String respose = convertStreamToString(is);
         ItemDAOJSON itemDAOJSON = new ItemDAOJSON();
         ArrayList<Item> listaDeItens = itemDAOJSON.desserializa(respose);
-        System.out.println("O objeto item é: " + listaDeItens);
-
+    
         if (itemDAOJSON != null) {
 
             HttpSession session = request.getSession();

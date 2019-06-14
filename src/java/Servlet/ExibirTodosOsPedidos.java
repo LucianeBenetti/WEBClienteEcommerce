@@ -56,7 +56,6 @@ public class ExibirTodosOsPedidos extends HttpServlet {
 
         PedidoCompraDAOJSON pedidoCompraDAOJSON = new PedidoCompraDAOJSON();
         ArrayList<PedidoCompra> pedidosCompra = pedidoCompraDAOJSON.desserializaExcluir(resp);
-      //  System.out.println("O objeto item é: " + pedidosCompra);
 
         if (pedidosCompra != null) {
             

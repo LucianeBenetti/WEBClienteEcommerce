@@ -11,9 +11,9 @@ public class SairDoSistema extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         response.setContentType("text/html;charset=UTF-8");
-          request.getSession().invalidate();
+        request.getSession().invalidate();
         request.getRequestDispatcher("LuMarEcommerce.jsp").forward(request, response);
     }
 

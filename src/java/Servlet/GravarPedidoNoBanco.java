@@ -46,7 +46,7 @@ public class GravarPedidoNoBanco extends HttpServlet {
         String usuarioJSON;
         UsuarioDAOJSON usuarioDAOJSON = new UsuarioDAOJSON();
         usuarioJSON = usuarioDAOJSON.serializaParaJSON(usuario);
-        
+
         ArrayList<Item> pedidoFechado = (ArrayList<Item>) fecharPedido;
         ArrayList<Integer> qtidades = (ArrayList<Integer>) quantidadeItem;
 
@@ -80,13 +80,17 @@ public class GravarPedidoNoBanco extends HttpServlet {
         InputStream is = con.getInputStream();
         String resp = convertStreamToString(is);
 
-        ItemPedidoDAOJSON itempedidoDAOJSON = new ItemPedidoDAOJSON();
-        ArrayList<ItemPedido> itemPedido = itempedidoDAOJSON.desserializa(resp);
+        ItemPedidoDAOJSON itemPedidoCadastradoDAOJSON = new ItemPedidoDAOJSON();
+        ItemPedido itemPedidoCadastradoJSON = itemPedidoCadastradoDAOJSON.desserializaParaJSON(resp);
 
-        if (itemPedido != null) {
+        if (itemPedidoCadastradoJSON != null) {
+
             System.out.print("Pedido incluido com sucesso");
+            request.setAttribute("nomedousuario", dadosDoUsuario.getLogin());
+            request.setAttribute("codigoseguranca", dadosDoUsuario.getCodigoSeguranca());
+            request.getRequestDispatcher("WEB-INF/PedidoFechado.jsp").forward(request, response);
 
-        } else {
+       } else {
 
             request.getRequestDispatcher("Login.jsp").forward(request, response);
         }
@@ -103,11 +107,6 @@ public class GravarPedidoNoBanco extends HttpServlet {
         processRequest(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";

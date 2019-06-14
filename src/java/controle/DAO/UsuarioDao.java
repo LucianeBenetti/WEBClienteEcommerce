@@ -44,7 +44,7 @@ public class UsuarioDao {
             ConexaoComBanco.closeStatement(conn);
             ConexaoComBanco.closeConnection(conn);
         }
-        System.out.println("controle.DAO.UsuarioDao.BuscarUsuarioPorCodigoDoUsuario()" + usuario);
+    
         return usuario;
 
     }

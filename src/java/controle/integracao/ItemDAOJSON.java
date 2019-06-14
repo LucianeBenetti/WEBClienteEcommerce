@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import controle.VO.Item;
+import controle.VO.Usuario;
 import java.util.ArrayList;
 
 public class ItemDAOJSON {   
@@ -23,6 +24,13 @@ public class ItemDAOJSON {
                         new TypeToken<ArrayList<Item>>() {
                         }.getType());
         return listaDeItensFromJSON;
+    }
+    
+    public Item desserializaPedido(String jsonString) {
+
+        Gson gson = new GsonBuilder().create();
+        Item itemFromJSON = (Item) gson.fromJson(jsonString, Item.class);
+        return itemFromJSON;
     }
 
    
